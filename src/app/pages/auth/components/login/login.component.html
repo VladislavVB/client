@@ -1,6 +1,7 @@
 <form [formGroup]="loginForm" (ngSubmit)="loginUser()">
   <p-card header="Войти" [style]="{ width: '360px' }">
-    <div class="field">
+    <p-button label="Отчистить" (click)="clear()" styleClass="w-full" type="button"></p-button>
+    <div class="field mt-3">
       <label for="email">Email</label>
       <input
         type="text"

@@ -35,6 +35,13 @@ export class LoginComponent {
     return this.loginForm.controls['password'];
   }
 
+  clear() {
+    this.loginForm.setValue({
+      email: '',
+      password: ''
+    })
+  }
+
   loginUser() {
     const { email, password } = this.loginForm.value;
 
