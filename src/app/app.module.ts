@@ -8,10 +8,10 @@ import { AppComponent } from './app.component';
 import { TopBarModule } from './shared/modules/top-bar/top-bar.module';
 import { PrimengCustomModule } from './shared/modules/primeng-custom/primeng-custom.module';
 import { TableModule } from 'primeng/table';
-import { ProductsModule } from './pages/products/products.module';
 import { AuthModule } from './pages/auth/auth.module';
 import { HomeModule } from './pages/home/home.module';
 import { MessageService } from 'primeng/api';
+import { ShopModule } from './pages/shop/shop.module';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -20,11 +20,11 @@ import { MessageService } from 'primeng/api';
     AppRoutingModule,
     BrowserAnimationsModule,
     TableModule,
-    ProductsModule,
     HttpClientModule,
     AuthModule,
     HomeModule,
     TopBarModule,
+    ShopModule,
   ],
   providers: [MessageService],
 

@@ -7,6 +7,7 @@ import { ProductsServices } from './services/products.services';
 @NgModule({
   declarations: [ProductsComponent],
   imports: [CommonModule, PrimengCustomModule],
-  providers: [ProductsServices]
+  providers: [ProductsServices],
+  exports: [ProductsComponent],
 })
 export class ProductsModule {}
