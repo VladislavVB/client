@@ -1,4 +1,24 @@
 {
+  "users": [
+    {
+      "fullName": "Иван Иванович",
+      "email": "test@mail.ru",
+      "password": "12AdqQ3!@",
+      "id": 1
+    },
+    {
+      "fullName": "Петя Иванов",
+      "email": "govno@mail.ru",
+      "password": "1453AdqQ3!@",
+      "id": 2
+    },
+    {
+      "fullName": "иван бубан",
+      "email": "iavan@mail.ru",
+      "password": "admin1Sq",
+      "id": 3
+    }
+  ],
   "products": [
     {
       "id": "1",

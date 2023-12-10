@@ -1,13 +1,9 @@
-import { Component } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-// import { Router } from '@angular/router';
-// import { MessageService } from 'primeng/api';
-// import { AuthServices } from '../../services/auth.services';
+import { Component, OnDestroy } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthServices } from '../../services/auth.services';
+import { IUser } from '../../types/user.interface';
+import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-login',
@@ -15,9 +11,21 @@ import {
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
+  constructor(
+    private authService: AuthServices,
+    private router: Router,
+    private msgService: MessageService
+  ) {}
+
   loginForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required]),
+    email: new FormControl('iavan@mail.ru', [
+      Validators.required,
+      Validators.email,
+    ]),
+    password: new FormControl('admin1Sq', [
+      Validators.required,
+      Validators.pattern('^(?=.*d)(?=.*[A-Z])(?=.*[a-z]).{8,}$'),
+    ]),
   });
 
   get email() {
@@ -28,22 +36,21 @@ export class LoginComponent {
   }
 
   loginUser() {
-    console.log(1);
+    const { email, password } = this.loginForm.value;
 
-    // const { email, password } = this.loginForm.value;
-    // this.authServices.getUserByEmail(email as string).subscribe(
-    //   response => {
-    //     if (response.length > 0 && response[0].password === password) {
-    //       sessionStorage.setItem('email', email as string);
-    //       this.router.navigate(['/home']);
-    //     } else {
-    //       this.msgService.add({ severity: 'error', summary: 'Error', detail: 'email or password is wrong' });
-    //     }
-    //   },
-    //   error => {
-    //     this.msgService.add({ severity: 'error', summary: 'Error', detail: 'Something went wrong' });
-    //   }
-
-    // )
+    this.authService.getUserByEmail(email).subscribe((data: IUser[]) => {
+      if (data.length > 0 && data[0].password === password) {
+        localStorage.setItem('email', email);
+        this.router.navigate(['/products']);
+      } else {
+        this.msgService.add({
+          severity: 'error',
+          summary: 'ИДИ',
+          detail: 'нахуй за своим email',
+          life: 2000,
+        });
+      }
+      //можно было добавить next error complite, но с json сервером нужно копаться
+    });
   }
 }

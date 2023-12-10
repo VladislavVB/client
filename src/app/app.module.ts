@@ -11,6 +11,7 @@ import { TableModule } from 'primeng/table';
 import { ProductsModule } from './pages/products/products.module';
 import { AuthModule } from './pages/auth/auth.module';
 import { HomeModule } from './pages/home/home.module';
+import { MessageService } from 'primeng/api';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -25,7 +26,8 @@ import { HomeModule } from './pages/home/home.module';
     HomeModule,
     TopBarModule,
   ],
-  providers: [],
+  providers: [MessageService],
+
   bootstrap: [AppComponent],
 })
 export class AppModule {}

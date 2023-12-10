@@ -1,5 +1,10 @@
-<div class="p-2">
-  <p-button label="<" (click)="goBack()" class="m-2"></p-button>
-  <p-button label="Home" routerLink="/" class="m-2"></p-button>
-  <p-button label="Product" routerLink="/products" class="m-2"></p-button>
+<div class="flex min-w-screen border-bottom-1 mb-3">
+  <div class="flex justify-content-between">
+    <p-button label="<" (click)="goBack()" class="m-2"></p-button>
+    <p-button label="Home" routerLink="/" class="m-2"></p-button>
+    <p-button label="Product" routerLink="/products" class="m-2"></p-button>
+  </div>
+  <div class="flex ml-auto">
+    <p-button label="LogOut" (click)="logOut()" class="m-2" s></p-button>
+  </div>
 </div>

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-top-bar',
@@ -7,7 +8,11 @@ import { Location } from '@angular/common';
   styleUrls: ['./top-bar.component.scss'],
 })
 export class TopBarComponent {
-  constructor(private location: Location) {}
+  constructor(private location: Location, private router: Router) {}
+  logOut() {
+    localStorage.removeItem('email');
+    this.router.navigate(['login']);
+  }
   goBack() {
     this.location.back();
   }

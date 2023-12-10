@@ -1,5 +1,22 @@
-<form [formGroup]="registerForm" (ngSubmit)="submitDetails()">
-  <p-card header="Register" [style]="{ width: '360px' }">
+<form [formGroup]="registerForm" (ngSubmit)="registerUser()">
+  <p-card header="Регистрация" [style]="{ width: '360px' }">
+    <div class="field">
+      <label for="fullName">ФИО</label>
+      <input
+        type="text"
+        pInputText
+        formControlName="fullName"
+        class="w-full"
+        name="fullName"
+        placeholder="Пиши сюда ФИО"
+      />
+      <small
+        *ngIf="fullName.invalid && (fullName.dirty || fullName.touched)"
+        class="block p-error"
+      >
+        <div *ngIf="fullName.errors?.['required']">Имя обязательно</div>
+      </small>
+    </div>
     <div class="field">
       <label for="email">Email</label>
       <input
@@ -8,40 +25,50 @@
         formControlName="email"
         class="w-full"
         name="email"
-        placeholder="Type your email"
+        placeholder="Пиши сюда email"
       />
       <small
         *ngIf="email.invalid && (email.dirty || email.touched)"
         class="block p-error"
       >
-        <div *ngIf="email.errors?.['required']">Email is required.</div>
-        <div *ngIf="email.errors?.['email']">Email should be valid</div>
+        <div *ngIf="email.errors?.['required']">Email обязателен</div>
+        <div *ngIf="email.errors?.['email']">Email должен быть настоящим</div>
       </small>
     </div>
     <div class="field">
-      <label for="password">Password</label>
-      <input
-        type="password"
-        pInputText
-        formControlName="password"
+      <label for="password">Пароль</label>
+      <p-password
         class="w-full"
+        formControlName="password"
         name="password"
-        placeholder="Type your password"
+        placeholder="Пиши сюда пароль"
+        autocomplete="on"
+        [toggleMask]="true"
+        [feedback]="false"
+        styleClass="p-password p-component p-inputwrapper p-input-icon-right"
+        [style]="{ width: '100%' }"
+        [inputStyle]="{ width: '100%' }"
       />
       <small
         *ngIf="password.invalid && (password.dirty || password.touched)"
         class="block p-error"
       >
-        <div *ngIf="password.errors?.['required']">Password is required.</div>
+        <div *ngIf="password.errors?.['required']">Пароль обязателен</div>
+        <ui *ngIf="password.errors?.['pattern']">
+          <li>Минимальная длина 8 символов</li>
+          <li>Должен содержать хотя бы одну цифру</li>
+          <li>Должен содержать хотя бы одну заглавную букву</li>
+          <li>Должен содержать хотя бы одну строчную букву</li>
+        </ui>
       </small>
     </div>
 
     <p-button
-      label="Register"
+      label="Зарегаться"
       styleClass="w-full"
       [disabled]="registerForm.invalid"
       type="submit"
     ></p-button>
-    <div class="mt-2">Already a member? <a [routerLink]="['/login']">Login</a></div>
+    <div class="mt-2">Уже зареган? <a [routerLink]="['/login']">Войти</a></div>
   </p-card>
 </form>
