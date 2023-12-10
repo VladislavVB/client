@@ -1,31 +1,18 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { IProduct } from '../../types/product';
 import { ProductsServices } from '../../services/products.services';
-import { Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductsComponent implements OnInit, OnDestroy {
-  productSubscription: Subscription;
-  products!: IProduct[];
+export class ProductsComponent {
+  products$: Observable<IProduct[]>;
 
-  constructor(private productService: ProductsServices) {}
-
-  initilazesListeners() {
-    this.productSubscription = this.productService
-      .getProducts()
-      .subscribe((data: IProduct[]) => {
-        this.products = data;
-      });
-  }
-
-  ngOnInit(): void {
-    this.initilazesListeners();
-  }
-  ngOnDestroy(): void {
-    this.productSubscription.unsubscribe();
+  constructor(private productService: ProductsServices) {
+    this.products$ = this.productService.getProducts();
   }
 }

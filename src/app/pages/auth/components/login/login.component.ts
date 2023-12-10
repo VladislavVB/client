@@ -1,14 +1,16 @@
-import { Component, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthServices } from '../../services/auth.services';
 import { IUser } from '../../types/user.interface';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { first } from 'rxjs';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
   constructor(
@@ -38,26 +40,29 @@ export class LoginComponent {
   clear() {
     this.loginForm.setValue({
       email: '',
-      password: ''
-    })
+      password: '',
+    });
   }
 
   loginUser() {
     const { email, password } = this.loginForm.value;
 
-    this.authService.getUserByEmail(email).subscribe((data: IUser[]) => {
-      if (data.length > 0 && data[0].password === password) {
-        localStorage.setItem('email', email);
-        this.router.navigate(['/products']);
-      } else {
-        this.msgService.add({
-          severity: 'error',
-          summary: 'ИДИ',
-          detail: 'нахуй за своим email',
-          life: 2000,
-        });
-      }
-      //можно было добавить next error complite, но с json сервером нужно копаться
-    });
+    this.authService
+      .getUserByEmail(email)
+      .pipe(first())
+      .subscribe((data: IUser[]) => {
+        if (data.length > 0 && data[0].password === password) {
+          localStorage.setItem('email', email);
+          this.router.navigate(['/products']);
+        } else {
+          this.msgService.add({
+            severity: 'error',
+            summary: 'ИДИ',
+            detail: 'нахуй за своим email',
+            life: 2000,
+          });
+        }
+        //можно было добавить next error complite, но с json сервером нужно копаться
+      });
   }
 }

@@ -1,21 +1,25 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthServices } from '../../services/auth.services';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { IUser } from '../../types/user.interface';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnDestroy {
   constructor(
     private authService: AuthServices,
     private router: Router,
     private msgService: MessageService
   ) {}
+
+  registerUserSubscription: Subscription;
 
   registerForm = new FormGroup({
     fullName: new FormControl<string>('', [Validators.required]),
@@ -39,9 +43,9 @@ export class RegisterComponent {
   }
 
   registerUser() {
-    this.authService
+    this.registerUserSubscription = this.authService
       .registerUser(this.registerForm.value as IUser)
-      .subscribe((data) => {
+      .subscribe((_data) => {
         this.msgService.add({
           severity: 'success',
           summary: 'ТЫ',
@@ -51,5 +55,9 @@ export class RegisterComponent {
         this.router.navigate(['login']);
       });
     //можно было добавить next error complite, но с json сервером нужно копаться
+  }
+
+  ngOnDestroy(): void {
+    this.registerUserSubscription.unsubscribe();
   }
 }

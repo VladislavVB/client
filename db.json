@@ -17,6 +17,12 @@
       "email": "iavan@mail.ru",
       "password": "admin1Sq",
       "id": 3
+    },
+    {
+      "fullName": "иван бубан2",
+      "email": "eee@mail.ru",
+      "password": "Ad212dSA",
+      "id": 4
     }
   ],
   "products": [

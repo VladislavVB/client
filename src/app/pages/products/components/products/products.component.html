@@ -3,7 +3,7 @@
     #dt
     dataKey="id"
     [rows]="10"
-    [value]="products"
+    [value]="products$ | async"
     [showCurrentPageReport]="true"
     [rowsPerPageOptions]="[10, 25, 50]"
     currentPageReportTemplate="Показано с  {first} по {last} из {totalRecords}"
