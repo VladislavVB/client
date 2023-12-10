@@ -4,7 +4,7 @@ import { AuthServices } from '../../services/auth.services';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { IUser } from '../../types/user.interface';
-import { Subscription } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -19,7 +19,7 @@ export class RegisterComponent implements OnDestroy {
     private msgService: MessageService
   ) {}
 
-  registerUserSubscription: Subscription;
+  registerUserSubscription$: Subject<IUser> = new Subject<IUser>();
 
   registerForm = new FormGroup({
     fullName: new FormControl<string>('', [Validators.required]),
@@ -33,18 +33,17 @@ export class RegisterComponent implements OnDestroy {
   get fullName() {
     return this.registerForm.controls['fullName'];
   }
-
   get email() {
     return this.registerForm.controls['email'];
   }
-
   get password() {
     return this.registerForm.controls['password'];
   }
 
   registerUser() {
-    this.registerUserSubscription = this.authService
+    this.authService
       .registerUser(this.registerForm.value as IUser)
+      .pipe(takeUntil(this.registerUserSubscription$))
       .subscribe((_data) => {
         this.msgService.add({
           severity: 'success',
@@ -58,6 +57,6 @@ export class RegisterComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.registerUserSubscription.unsubscribe();
+    this.registerUserSubscription$.unsubscribe();
   }
 }

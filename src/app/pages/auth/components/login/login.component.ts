@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthServices } from '../../services/auth.services';
 import { IUser } from '../../types/user.interface';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { first } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -12,12 +12,14 @@ import { first } from 'rxjs';
   styleUrls: ['./login.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginComponent {
+export class LoginComponent implements OnDestroy {
   constructor(
     private authService: AuthServices,
     private router: Router,
     private msgService: MessageService
   ) {}
+
+  loginUserSubscription$: Subject<IUser> = new Subject<IUser>();
 
   loginForm = new FormGroup({
     email: new FormControl('iavan@mail.ru', [
@@ -49,7 +51,7 @@ export class LoginComponent {
 
     this.authService
       .getUserByEmail(email)
-      .pipe(first())
+      .pipe(takeUntil(this.loginUserSubscription$))
       .subscribe((data: IUser[]) => {
         if (data.length > 0 && data[0].password === password) {
           localStorage.setItem('email', email);
@@ -64,5 +66,8 @@ export class LoginComponent {
         }
         //можно было добавить next error complite, но с json сервером нужно копаться
       });
+  }
+  ngOnDestroy(): void {
+    this.loginUserSubscription$.unsubscribe();
   }
 }
