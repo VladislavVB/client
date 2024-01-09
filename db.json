@@ -258,5 +258,15 @@
       "category": "Квадрокоптеры",
       "quantity": 11
     }
+  ],
+  "photos": [
+    {
+      "image": "https://i.imgur.com/DAowBQ2.jpeg",
+      "sort": 1
+    },
+    {
+      "image": "https://i.imgur.com/Ze2Qm.jpeg",
+      "sort": 2
+    }
   ]
 }

@@ -12,6 +12,7 @@ import { AuthModule } from './pages/auth/auth.module';
 import { HomeModule } from './pages/home/home.module';
 import { MessageService } from 'primeng/api';
 import { ShopModule } from './pages/shop/shop.module';
+import { ShowroomModule } from './shared/modules/showroom/showroom.module';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -23,6 +24,7 @@ import { ShopModule } from './pages/shop/shop.module';
     HttpClientModule,
     AuthModule,
     HomeModule,
+    ShowroomModule,
     TopBarModule,
     ShopModule,
   ],

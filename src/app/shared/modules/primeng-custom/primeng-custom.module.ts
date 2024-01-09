@@ -9,6 +9,7 @@ import { CardModule } from 'primeng/card';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { MessagesModule } from 'primeng/messages';
+import { GalleriaModule } from 'primeng/galleria';
 
 @NgModule({
   declarations: [],
@@ -21,6 +22,7 @@ import { MessagesModule } from 'primeng/messages';
     CardModule,
     ToastModule,
     MessagesModule,
+    GalleriaModule,
   ],
   exports: [
     ButtonModule,
@@ -30,6 +32,7 @@ import { MessagesModule } from 'primeng/messages';
     CardModule,
     ToastModule,
     MessagesModule,
+    GalleriaModule,
   ],
   providers: [MessageService],
 })
